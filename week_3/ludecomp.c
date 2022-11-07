@@ -2,12 +2,14 @@
 
 void printmatrix(int len, double mat[len][len]){
     for(int i = 0; i<len; i++){
+        printf("| ");
         for (int j = 0; j < len; j++)
         {
             printf("%6.2f ", mat[i][j]);
         }
-        printf("\n");
+        printf(" |\n");
     }
+    printf("\n");
 }
 
 void multiply(int len, double mat1[len][len], double mat2[len][len], double res[len][len]){
@@ -45,12 +47,31 @@ void decomp(int len, double lu[len][len]){
             for (int j = k+1; j < len; j++)
             {
                 lu[i][j] -= temp*lu[k][j];
-                printf("%6.2f \n", temp);
+                // printf("%6.2f \n", temp);
             }
             
         }
         
     }
+    
+}
+
+void extract(int len, double LU[len][len], double L[len][len], double U[len][len]){
+    for (int i = 0; i < len; i++)
+    {
+        for (int j = 0; j < i; j++)
+        {
+            L[i][j] = LU[i][j];
+        }
+        L[i][i] = 1;
+        for (int j = i; j < len; j++)
+        {
+            U[i][j] = LU[i][j];
+        }
+        
+        
+    }
+
     
 }
 
@@ -61,9 +82,14 @@ int main(){
 	double A[3][3] = {{4, 3, -2}, {-1, -1, 3}, {2, -1, 5}};
     double LU[3][3];
 	const double b[] = {9, -4, 6};
+    double L[3][3];
+    double U[3][3];
     printmatrix(3, A);
 	decomp(3, A);
 	printmatrix(3, A);
+    extract(3, A, L, U);
+    printmatrix(3, L);
+    printmatrix(3, U);
 	// printVector(3, x);
 
 	// double B[][3] = {{0, 3, -2}, {-1, -1, 3}, {2, -1, 5}};
